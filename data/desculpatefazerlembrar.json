@@ -1,0 +1,45 @@
+{
+  "title": "DESCULPA TE FAZER LEMBRAR",
+  "artist": "Ikki",
+  "cover": "https://i.scdn.co/image/ab67616d0000b2733bfaee70c7195cd727b1ad07",
+  "subtitle": "Ouça agora no seu app favorito",
+  "platforms": [
+    {
+      "id": "spotify",
+      "name": "Spotify",
+      "url": "https://open.spotify.com/album/2WprPa0AC2XvArS02hkv5T",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "appleMusic",
+      "name": "Apple Music",
+      "url": "https://music.apple.com/br/album/desculpa-te-fazer-lembrar/1689438442",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "youtubeMusic",
+      "name": "YouTube Music",
+      "url": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://music.youtube.com/browse/MPREb_13hFOC78gvg&ved=2ahUKEwiNlceh_rmVAxVHK7kGHdn5EeIQFnoECBsQAQ&usg=AOvVaw0Iz4K4YFDm3ZAnGifHdi2U",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "deezer",
+      "name": "Deezer",
+      "url": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.deezer.com/br/album/447177915&ved=2ahUKEwiNlceh_rmVAxVHK7kGHdn5EeIQFnoECBwQAQ&usg=AOvVaw0eG1PtdklWh4CN8rPWGecV",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "amazonMusic",
+      "name": "Amazon Music",
+      "url": "https://music.amazon.com.br/albums/B0C6L5HPCL?marketplaceId=A2Q3Y263D00KWC&musicTerritory=BR&ref=dm_sh_RN6psHuLxz6aU9XHJzvlLfFDr",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "tidal",
+      "name": "Tidal",
+      "url": "https://listen.tidal.com/album/296640441",
+      "cta": "Ouvir"
+    }
+  ],
+  "artistId": "5uxYttuMvoojMzmPmWWg6T"
+}
