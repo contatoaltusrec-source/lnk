@@ -1,0 +1,17 @@
+{
+  "title": "Bloco de Papel",
+  "artist": "Hugo Almeida",
+  "cover": "https://sms-public-assets.s3.amazonaws.com/2606ba19e572ae612eb193d3f7fa30a6.jpg",
+  "subtitle": "Ouça agora no seu app favorito",
+  "preview": "https://p.scdn.co/mp3-preview/placeholder",
+  "platforms": [
+    { "id": "spotify", "name": "Spotify", "url": "https://open.spotify.com/", "cta": "Ouvir" },
+    { "id": "appleMusic", "name": "Apple Music", "url": "https://music.apple.com/", "cta": "Ouvir" },
+    { "id": "youtubeMusic", "name": "YouTube Music", "url": "https://music.youtube.com/", "cta": "Ouvir" },
+    { "id": "deezer", "name": "Deezer", "url": "https://www.deezer.com/", "cta": "Ouvir" },
+    { "id": "amazonMusic", "name": "Amazon Music", "url": "https://music.amazon.com/", "cta": "Ouvir" },
+    { "id": "tidal", "name": "Tidal", "url": "https://tidal.com/", "cta": "Ouvir" },
+    { "id": "tiktok", "name": "TikTok", "url": "https://www.tiktok.com/", "cta": "Usar áudio" },
+    { "id": "instagram", "name": "Instagram / Reels", "url": "https://www.instagram.com/", "cta": "Usar áudio" }
+  ]
+}
