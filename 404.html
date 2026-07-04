@@ -17,7 +17,7 @@
     .wrap { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 48px 18px 24px; }
     .card { width: 100%; max-width: 380px; flex: 1; opacity: 0; transform: translateY(16px); animation: enter 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards; }
     @keyframes enter { to { opacity: 1; transform: translateY(0); } }
-    .hero { background: rgba(18,16,14,0.55); backdrop-filter: blur(24px) saturate(1.2); -webkit-backdrop-filter: blur(24px) saturate(1.2); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,0.55); }
+    .hero { background: rgba(18,16,14,0.55); backdrop-filter: blur(24px) saturate(1.2); -webkit-backdrop-filter: blur(24px) saturate(1.2); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; overflow: hidden; box-shadow: 0 8px 26px rgba(0,0,0,0.32); }
     .cover-wrap { position: relative; width: 100%; aspect-ratio: 1; background: #111; }
     .cover { width: 100%; height: 100%; object-fit: cover; display: block; }
     .play-btn { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: transparent; transition: background 0.25s ease; cursor: pointer; border: 0; color: #fff; }
@@ -52,7 +52,13 @@
     .notfound h1 { font-size: 60px; font-weight: 700; color: rgba(255,255,255,0.9); }
     .notfound p { color: rgba(255,255,255,0.5); margin-top: 8px; font-size: 14px; }
     .notfound a { color: rgba(255,255,255,0.7); font-size: 13px; margin-top: 20px; display: inline-block; }
-    #sp-embed { position: fixed; left: 0; bottom: 0; width: 340px; height: 80px; opacity: 0; pointer-events: none; z-index: -1; clip-path: inset(100%); }
+    /* O Spotify Embed API move o iframe pra fora do #sp-embed (direto no body),
+       então escondemos o próprio iframe pelo src, com !important. */
+    #sp-embed, iframe[src*="open.spotify.com/embed"] {
+      position: fixed !important; left: -10000px !important; top: -10000px !important;
+      width: 340px !important; height: 80px !important;
+      opacity: 0 !important; pointer-events: none !important; z-index: -9999 !important;
+    }
   </style>
 </head>
 <body>
@@ -97,16 +103,14 @@
       if (spotifyApi) makeController(uri); else pendingUri = uri;
     }
     function makeController(uri) {
-      let lastPos = 0;
       spotifyApi.createController(document.getElementById('sp-embed'), { uri, width: '100%', height: 80 }, (ctrl) => {
         spotifyCtrl = ctrl;
         ctrl.addListener('playback_update', (e) => {
           const d = (e && e.data) || {};
-          // Quando a prévia/faixa termina, o player volta pro início (position ~0);
-          // detecta isso pra devolver o botão ao estado de "play".
-          const restarted = lastPos > 1500 && d.position < 1000;
-          lastPos = d.position || 0;
-          setPlayingUI(d.isPaused === false && !restarted);
+          // No fim da prévia o embed manda position === duration (sem "pause"),
+          // então tratamos isso como parado pra devolver o botão ao estado de play.
+          const ended = d.duration > 0 && d.position >= d.duration;
+          setPlayingUI(d.isPaused === false && !ended);
         });
       });
     }
