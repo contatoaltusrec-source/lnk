@@ -1,51 +1,33 @@
-# Como criar uma página de pre-save PERSONALIZADA (Altus)
+# Diretrizes de design — página de pre-save personalizada (Altus)
 
-Este documento ensina qualquer chat/LLM a construir uma página de pre-save
-(smartlink) **com design único** para a Altus, hospedada em
-`lnk.altusrec.com.br/<slug>`.
+Especificação de **design** para um chat/LLM construir uma página de pre-save
+(smartlink) com visual exclusivo. O chat deve **entregar o `index.html` pronto**:
+um único arquivo completo e autossuficiente (todo o CSS e JS inline).
 
-> As páginas **padrão** são geradas automaticamente pelo painel (JSON em
-> `data/<slug>.json`, renderizado por `404.html`). Este guia é só para as
-> **personalizadas** — quando você quer um layout exclusivo pra um projeto.
-
----
-
-## 1. Onde salvar
-
-Crie **`presave/<slug>/index.html`** no repositório `lnk`.
-
-- É uma página HTML **única e autossuficiente** (todo o CSS/JS inline).
-- O GitHub Pages serve `presave/<slug>/index.html` em
-  `https://lnk.altusrec.com.br/<slug>`.
-- Como o arquivo existe de verdade, ele tem prioridade sobre o `404.html`
-  (que só cuida das páginas padrão). Os dois convivem sem conflito.
-
-Para publicar: painel admin → aba **Pre-saves** → **🚀 Publicar no ar**
-(ou `git add/commit/push` dentro da pasta `presave/`).
+Os dados da faixa (título, artista, capa, ID do Spotify, plataformas) vêm no
+brief gerado pelo painel — cole junto com estas diretrizes.
 
 ---
 
-## 2. Regras de identidade visual (obrigatórias)
+## Regras visuais (obrigatórias)
 
 - **Tema escuro.** Fundo `#000` / `#0a0a0a`. Texto claro.
 - **Fonte:** Space Grotesk (Google Fonts).
-- **SEM logo da Altus Records** na página.
-- **Ícones oficiais (somente ícone)** das plataformas, na pasta
-  `/logos/icons/`:
-  - `spotify.svg`, `deezer.svg`, `tiktok.svg`, `amazon.svg` (SVG)
-  - `appleMusic.png` (PNG)
-  - Para plataformas sem ícone na pasta, use um `<svg>` inline discreto ou só o
-    texto do nome.
-  - (Logos completos com texto, se precisar, ficam em `/logos/<id>.svg`.)
-- **Título da aba do navegador:** `"<Título> - <Artista>"` (hífen único).
-- **Rodapé fixo** com as redes da Altus + o copyright (bloco pronto na seção 4).
-- **Botão de play** sobre a capa que aciona o player do Spotify escondido
-  (Spotify iframe Embed API — **nunca** a Web API, nada de credenciais). Trecho
-  pronto na seção 5.
+- **SEM logo da Altus Records.**
+- **`<title>` da página:** `"<Título> - <Artista>"` (hífen único).
+- **Capa em destaque** com um **botão de play sobreposto**.
+- **Botões de plataforma**, um por linha, cada um com o texto de call-to-action.
+- **Ícones oficiais (somente ícone)** das plataformas, em `/logos/icons/`:
+  `spotify.svg`, `deezer.svg`, `tiktok.svg`, `amazon.svg`, `appleMusic.png`.
+  Para plataformas sem ícone na pasta, use o nome em texto.
+  (Logos completos com texto, se preferir, ficam em `/logos/<id>.svg`.)
+- **Rodapé** com as redes da Altus + o copyright (bloco pronto abaixo).
+- **Botão de play** aciona um player do Spotify **escondido** via Spotify iframe
+  Embed API (sem credenciais) — trecho pronto abaixo.
 
 ---
 
-## 3. Estrutura recomendada do `<head>`
+## `<head>` recomendado
 
 ```html
 <meta charset="UTF-8">
@@ -58,7 +40,7 @@ Para publicar: painel admin → aba **Pre-saves** → **🚀 Publicar no ar**
 
 ---
 
-## 4. Rodapé oficial (copie exatamente)
+## Rodapé oficial (use exatamente)
 
 ```html
 <footer style="display:flex;flex-direction:column;align-items:center;gap:15px;padding:34px 20px 20px;">
@@ -74,21 +56,40 @@ Para publicar: painel admin → aba **Pre-saves** → **🚀 Publicar no ar**
 
 ---
 
-## 5. Play sem credencial (Spotify iframe Embed API)
+## Play sem credencial (Spotify iframe Embed API)
 
-Coloque um `<div id="sp-embed" style="position:absolute;left:-9999px;"></div>`
-escondido na página e um botão de play sobre a capa (`id="playBtn"`).
-`TRACK_ID` é o id da faixa no Spotify (o pedaço depois de `/track/`).
+Coloque um `<div id="sp-embed"></div>` escondido e um botão de play sobre a capa
+(`id="playBtn"`). `TRACK_ID` é o id da faixa no Spotify.
+
+O iframe deve ficar **invisível**. O Spotify move o iframe pra fora do container
+(direto no `<body>`), então esconda pelo `src`:
+
+```css
+iframe[src*="open.spotify.com/embed"] {
+  position: fixed !important; left: -10000px !important; top: -10000px !important;
+  width: 340px !important; height: 80px !important;
+  opacity: 0 !important; pointer-events: none !important; z-index: -9999 !important;
+}
+```
 
 ```html
-<div id="sp-embed" style="position:absolute;left:-9999px;top:0;"></div>
+<div id="sp-embed"></div>
 <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 <script>
   const TRACK_ID = 'COLE_O_ID_DA_FAIXA_AQUI';
   let ctrl = null, api = null, pending = null;
   window.onSpotifyIframeApiReady = (a) => { api = a; if (pending) make(pending); };
   function make(uri) {
-    api.createController(document.getElementById('sp-embed'), { uri, width: '100%', height: 80 }, (c) => { ctrl = c; });
+    api.createController(document.getElementById('sp-embed'), { uri, width: '100%', height: 80 }, (c) => {
+      ctrl = c;
+      c.addListener('playback_update', (e) => {
+        const d = (e && e.data) || {};
+        // fim da prévia: o embed manda position === duration sem "pause"
+        const ended = d.duration > 0 && d.position >= d.duration;
+        const playing = d.isPaused === false && !ended;
+        document.getElementById('playBtn').classList.toggle('playing', playing);
+      });
+    });
   }
   (api ? make : (u => pending = u))('spotify:track:' + TRACK_ID);
   document.getElementById('playBtn').addEventListener('click', () => { if (ctrl) ctrl.togglePlay(); });
@@ -97,18 +98,6 @@ escondido na página e um botão de play sobre a capa (`id="playBtn"`).
 
 ---
 
-## 6. Dados da faixa
+## Entrega
 
-O painel admin gera um **brief `.md`** já preenchido com título, artista, capa,
-slug, id da faixa do Spotify e os links de cada plataforma. Cole esse brief para
-o chat construir a página seguindo as regras acima.
-
-## 7. Checklist antes de publicar
-
-- [ ] Arquivo em `presave/<slug>/index.html`
-- [ ] `<title>` = `Título - Artista`
-- [ ] Tema escuro + Space Grotesk, sem logo da Altus Records
-- [ ] Ícones de `/logos/icons/`
-- [ ] Rodapé oficial (seção 4) presente
-- [ ] Botão de play funcionando (seção 5)
-- [ ] Todos os links de plataforma corretos
+Entregue **apenas o `index.html` completo e pronto** — nada além do arquivo.

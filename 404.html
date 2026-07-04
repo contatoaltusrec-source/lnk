@@ -20,12 +20,6 @@
     .hero { background: rgba(18,16,14,0.55); backdrop-filter: blur(24px) saturate(1.2); -webkit-backdrop-filter: blur(24px) saturate(1.2); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; overflow: hidden; box-shadow: 0 8px 26px rgba(0,0,0,0.32); }
     .cover-wrap { position: relative; width: 100%; aspect-ratio: 1; background: #111; }
     .cover { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .play-btn { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: transparent; transition: background 0.25s ease; cursor: pointer; border: 0; color: #fff; }
-    .cover-wrap:hover .play-btn, .play-btn.playing { background: rgba(0,0,0,0.28); }
-    .play-btn .circle { width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.95); color: #000; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(0,0,0,0.4); transition: transform 0.2s ease; }
-    .play-btn:hover .circle { transform: scale(1.08); }
-    .play-btn svg { width: 26px; height: 26px; margin-left: 3px; }
-    .play-btn.playing svg { margin-left: 0; }
     .hero-info { padding: 16px 18px 18px; text-align: center; }
     .hero-title { font-size: 19px; font-weight: 700; color: #fff; line-height: 1.25; letter-spacing: -0.01em; }
     .hero-sub { margin-top: 5px; font-size: 12.5px; color: rgba(255,255,255,0.55); }
@@ -52,13 +46,6 @@
     .notfound h1 { font-size: 60px; font-weight: 700; color: rgba(255,255,255,0.9); }
     .notfound p { color: rgba(255,255,255,0.5); margin-top: 8px; font-size: 14px; }
     .notfound a { color: rgba(255,255,255,0.7); font-size: 13px; margin-top: 20px; display: inline-block; }
-    /* O Spotify Embed API move o iframe pra fora do #sp-embed (direto no body),
-       então escondemos o próprio iframe pelo src, com !important. */
-    #sp-embed, iframe[src*="open.spotify.com/embed"] {
-      position: fixed !important; left: -10000px !important; top: -10000px !important;
-      width: 340px !important; height: 80px !important;
-      opacity: 0 !important; pointer-events: none !important; z-index: -9999 !important;
-    }
   </style>
 </head>
 <body>
@@ -73,10 +60,8 @@
     </div>
     <div class="copy">&copy; 2026 Altus Entertainment. Todos os direitos reservados.</div>
   </footer>
-  <div id="sp-embed"></div>
 
   <script src="/platforms.js"></script>
-  <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
   <script>
   (function () {
     const LOGO_FILES = new Set(['spotify','appleMusic','youtubeMusic','deezer','amazonMusic','tidal','pandora','audiomack','tiktok']);
@@ -95,34 +80,6 @@
       card.innerHTML = `<div class="notfound"><h1>404</h1><p>Pré-save não encontrado.</p><a href="https://altusrec.com.br">altusrec.com.br &rarr;</a></div>`;
     }
 
-    // ── Spotify Embed API (play sem credencial) ──
-    let spotifyApi = null, spotifyCtrl = null, pendingUri = null;
-    window.onSpotifyIframeApiReady = (api) => { spotifyApi = api; if (pendingUri) makeController(pendingUri); };
-    function setupSpotify(trackId) {
-      const uri = 'spotify:track:' + trackId;
-      if (spotifyApi) makeController(uri); else pendingUri = uri;
-    }
-    function makeController(uri) {
-      spotifyApi.createController(document.getElementById('sp-embed'), { uri, width: '100%', height: 80 }, (ctrl) => {
-        spotifyCtrl = ctrl;
-        ctrl.addListener('playback_update', (e) => {
-          const d = (e && e.data) || {};
-          // No fim da prévia o embed manda position === duration (sem "pause"),
-          // então tratamos isso como parado pra devolver o botão ao estado de play.
-          const ended = d.duration > 0 && d.position >= d.duration;
-          setPlayingUI(d.isPaused === false && !ended);
-        });
-      });
-    }
-    function setPlayingUI(playing) {
-      const btn = document.getElementById('playBtn');
-      if (!btn) return;
-      btn.classList.toggle('playing', playing);
-      btn.querySelector('.circle').innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
-    }
-    const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
-    const ICON_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
-
     function render(d) {
       const heading = [d.title, d.artist].filter(Boolean).join(' - ');
       document.title = heading || 'Altus Records';
@@ -130,15 +87,10 @@
       const subtitle = d.subtitle || 'Ouça agora no seu app favorito';
       const platforms = (d.platforms || []).filter(p => p.url);
 
-      const spUrl = d.spotify || (platforms.find(p => p.id === 'spotify') || {}).url || '';
-      const mt = spUrl.match(/track\/([A-Za-z0-9]+)/);
-      const trackId = mt ? mt[1] : null;
-
       card.innerHTML = `
         <div class="hero">
           ${d.cover ? `<div class="cover-wrap">
             <img class="cover" src="${d.cover}" alt="${esc(d.title)}">
-            ${trackId ? `<button class="play-btn" id="playBtn" aria-label="Ouvir prévia"><span class="circle">${ICON_PLAY}</span></button>` : ''}
           </div>` : ''}
           <div class="hero-info">
             <div class="hero-title">${esc(heading)}</div>
@@ -148,11 +100,6 @@
         <div class="platforms">
           ${platforms.map(p => `<a class="platform" href="${p.url}" target="_blank" rel="noopener"><span class="pleft">${logoFor(p)}</span><span class="cta">${esc(p.cta || 'Ouvir')}</span></a>`).join('')}
         </div>`;
-
-      if (trackId) {
-        setupSpotify(trackId);
-        document.getElementById('playBtn').addEventListener('click', () => { if (spotifyCtrl) spotifyCtrl.togglePlay(); });
-      }
     }
 
     function logoFor(p) {
