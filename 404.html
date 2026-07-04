@@ -10,183 +10,146 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { min-height: 100%; }
-    body {
-      background: #000; color: #fff;
-      font-family: 'Space Grotesk', sans-serif;
-      -webkit-font-smoothing: antialiased; overflow-x: hidden;
-    }
-    #bg {
-      position: fixed; inset: -60px;
-      background-size: cover; background-position: center;
-      filter: blur(70px) saturate(1.3) brightness(0.5);
-      transform: scale(1.1); z-index: 0; opacity: 0; transition: opacity 1s ease;
-    }
+    body { background: #000; color: #fff; font-family: 'Space Grotesk', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    #bg { position: fixed; inset: -60px; background-size: cover; background-position: center; filter: blur(70px) saturate(1.3) brightness(0.5); transform: scale(1.1); z-index: 0; opacity: 0; transition: opacity 1s ease; }
     #bg.loaded { opacity: 1; }
     #bg::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.82) 100%); }
     .wrap { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 48px 18px 24px; }
-    .card {
-      width: 100%; max-width: 380px; flex: 1;
-      opacity: 0; transform: translateY(16px);
-      animation: enter 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
-    }
+    .card { width: 100%; max-width: 380px; flex: 1; opacity: 0; transform: translateY(16px); animation: enter 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards; }
     @keyframes enter { to { opacity: 1; transform: translateY(0); } }
-
-    /* Hero escuro: capa + título destacado (estilo Feature.fm) */
-    .hero {
-      background: rgba(18,16,14,0.55);
-      backdrop-filter: blur(24px) saturate(1.2);
-      -webkit-backdrop-filter: blur(24px) saturate(1.2);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 18px; overflow: hidden;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.55);
-    }
+    .hero { background: rgba(18,16,14,0.55); backdrop-filter: blur(24px) saturate(1.2); -webkit-backdrop-filter: blur(24px) saturate(1.2); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,0.55); }
     .cover-wrap { position: relative; width: 100%; aspect-ratio: 1; background: #111; }
     .cover { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .play-btn {
-      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-      background: transparent; transition: background 0.25s ease; cursor: pointer; border: 0; color: #fff;
-    }
+    .play-btn { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: transparent; transition: background 0.25s ease; cursor: pointer; border: 0; color: #fff; }
     .cover-wrap:hover .play-btn, .play-btn.playing { background: rgba(0,0,0,0.28); }
-    .play-btn .circle {
-      width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.95); color: #000;
-      display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-      transition: transform 0.2s ease;
-    }
+    .play-btn .circle { width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.95); color: #000; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(0,0,0,0.4); transition: transform 0.2s ease; }
     .play-btn:hover .circle { transform: scale(1.08); }
     .play-btn svg { width: 26px; height: 26px; margin-left: 3px; }
     .play-btn.playing svg { margin-left: 0; }
     .hero-info { padding: 16px 18px 18px; text-align: center; }
     .hero-title { font-size: 19px; font-weight: 700; color: #fff; line-height: 1.25; letter-spacing: -0.01em; }
     .hero-sub { margin-top: 5px; font-size: 12.5px; color: rgba(255,255,255,0.55); }
-
-    /* Lista de plataformas (cards claros p/ os logos oficiais aparecerem) */
     .platforms { margin-top: 14px; display: flex; flex-direction: column; gap: 9px; }
-    .platform {
-      display: flex; align-items: center; justify-content: space-between;
-      background: #fff; border-radius: 11px; padding: 11px 16px; text-decoration: none;
-      transition: transform 0.15s ease, box-shadow 0.2s ease;
-    }
+    .platform { display: flex; align-items: center; justify-content: space-between; background: #fff; border-radius: 11px; padding: 11px 16px; text-decoration: none; transition: transform 0.15s ease, box-shadow 0.2s ease; }
     .platform:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(0,0,0,0.35); }
     .pleft { display: flex; align-items: center; gap: 11px; min-width: 0; }
-    .plogo { height: 22px; width: auto; max-width: 160px; display: block; }
+    .plogo { height: 21px; width: auto; max-width: 160px; display: block; }
+    .plogo.plogo-tidal { height: 15px; }
+    .plogo.plogo-deezer, .plogo.plogo-audiomack { height: 19px; }
+    .plogo.plogo-tiktok { height: 24px; }
     .picon { width: 26px; height: 26px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
     .picon img, .picon svg { width: 100%; height: 100%; object-fit: contain; }
     .pname { color: #111; font-weight: 600; font-size: 15px; }
-    .cta {
-      flex-shrink: 0; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      color: #222; padding: 7px 16px; border: 1.5px solid #e2e2e2; border-radius: 999px; transition: all 0.2s ease;
-    }
+    .cta { flex-shrink: 0; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #222; padding: 7px 16px; border: 1.5px solid #e2e2e2; border-radius: 999px; transition: all 0.2s ease; }
     .platform:hover .cta { border-color: #111; background: #111; color: #fff; }
-
     footer { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 15px; padding: 34px 20px 6px; }
     .socials { display: flex; gap: 22px; }
     .socials a { color: rgba(255,255,255,0.4); transition: color 0.25s ease, transform 0.25s ease; display: inline-flex; }
     .socials a:hover { color: rgba(255,255,255,0.85); transform: translateY(-2px); }
     .socials svg { width: 19px; height: 19px; }
     .copy { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.22); text-align: center; }
-    .msg { color: rgba(255,255,255,0.5); text-align: center; margin-top: 120px; font-size: 15px; }
+    .notfound { text-align: center; margin-top: 130px; }
+    .notfound h1 { font-size: 60px; font-weight: 700; color: rgba(255,255,255,0.9); }
+    .notfound p { color: rgba(255,255,255,0.5); margin-top: 8px; font-size: 14px; }
+    .notfound a { color: rgba(255,255,255,0.7); font-size: 13px; margin-top: 20px; display: inline-block; }
+    #sp-embed { position: fixed; left: -9999px; bottom: 0; width: 340px; height: 80px; opacity: 0.01; pointer-events: none; }
   </style>
 </head>
 <body>
   <div id="bg"></div>
-  <div class="wrap">
-    <div class="card" id="card"></div>
-  </div>
+  <div class="wrap"><div class="card" id="card"></div></div>
   <footer>
     <div class="socials">
-      <a href="https://www.instagram.com/altusrec/" target="_blank" rel="noopener" title="Instagram">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
-      </a>
-      <a href="https://open.spotify.com/user/31iwbmwr6jsnr6hatmlmroumf444" target="_blank" rel="noopener" title="Spotify">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-      </a>
-      <a href="https://discord.gg/yqyPjRggpZ" target="_blank" rel="noopener" title="Discord">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.79 19.79 0 00-4.885-1.515.074.074 0 00-.079.037c-.211.375-.445.864-.608 1.249a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.249.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.369a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.009c.12.099.246.198.373.292a.077.077 0 01-.006.127 12.3 12.3 0 01-1.873.891.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-      </a>
-      <a href="mailto:contato@altusrec.com.br" title="Email">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
-      </a>
+      <a href="https://www.instagram.com/altusrec/" target="_blank" rel="noopener" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+      <a href="https://open.spotify.com/user/31iwbmwr6jsnr6hatmlmroumf444" target="_blank" rel="noopener" title="Spotify"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></a>
+      <a href="https://discord.gg/yqyPjRggpZ" target="_blank" rel="noopener" title="Discord"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.79 19.79 0 00-4.885-1.515.074.074 0 00-.079.037c-.211.375-.445.864-.608 1.249a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.249.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.369a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.009c.12.099.246.198.373.292a.077.077 0 01-.006.127 12.3 12.3 0 01-1.873.891.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg></a>
+      <a href="mailto:contato@altusrec.com.br" title="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg></a>
     </div>
     <div class="copy">&copy; 2026 Altus Entertainment. Todos os direitos reservados.</div>
   </footer>
+  <div id="sp-embed"></div>
 
   <script src="/platforms.js"></script>
+  <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
   <script>
-    (function () {
-      // logos oficiais em arquivo (lockup completo)
-      const LOGO_FILES = new Set(['spotify','appleMusic','youtubeMusic','deezer','amazonMusic','tidal','pandora','audiomack','tiktok']);
-      // ids cujo arquivo é só ícone (mostra também o nome ao lado)
-      const ICON_ONLY = new Set(['spotify']);
+  (function () {
+    const LOGO_FILES = new Set(['spotify','appleMusic','youtubeMusic','deezer','amazonMusic','tidal','pandora','audiomack','tiktok']);
+    const card = document.getElementById('card');
+    const bg = document.getElementById('bg');
 
-      const params = new URLSearchParams(location.search);
-      const path = location.pathname.replace(/^\/+|\/+$/g, '');
-      const slug = params.get('p') || path || 'exemplo';
-      const card = document.getElementById('card');
-      const bg = document.getElementById('bg');
+    const path = location.pathname.replace(/^\/+|\/+$/g, '');
+    const slug = new URLSearchParams(location.search).get('p') || path;
+    if (!slug) { notFound(); return; }
 
-      fetch(`/data/${slug}.json`)
-        .then(r => { if (!r.ok) throw new Error('404'); return r.json(); })
-        .then(render)
-        .catch(() => { card.innerHTML = '<p class="msg">Pré-save não encontrado.</p>'; });
+    fetch(`/data/${slug}.json`)
+      .then(r => { if (!r.ok) throw new Error('404'); return r.json(); })
+      .then(render).catch(notFound);
 
-      function render(d) {
-        const heading = [d.title, d.artist].filter(Boolean).join(' - ');
-        document.title = heading || 'Altus Records';
-        if (d.cover) {
-          bg.style.backgroundImage = `url("${d.cover}")`;
-          const img = new Image(); img.onload = () => bg.classList.add('loaded'); img.src = d.cover;
-        }
-        const subtitle = d.subtitle || 'Ouça agora no seu app favorito';
-        const platforms = (d.platforms || []).filter(p => p.url);
-        const iconPlay = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
-        const iconPause = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
+    function notFound() {
+      card.innerHTML = `<div class="notfound"><h1>404</h1><p>Pré-save não encontrado.</p><a href="https://altusrec.com.br">altusrec.com.br &rarr;</a></div>`;
+    }
 
-        card.innerHTML = `
-          <div class="hero">
-            ${d.cover ? `
-            <div class="cover-wrap">
-              <img class="cover" src="${d.cover}" alt="${escapeHtml(d.title)}">
-              ${d.preview ? `<button class="play-btn" id="playBtn" aria-label="Ouvir prévia"><span class="circle">${iconPlay}</span></button>` : ''}
-            </div>` : ''}
-            <div class="hero-info">
-              <div class="hero-title">${escapeHtml(heading)}</div>
-              <div class="hero-sub">${escapeHtml(subtitle)}</div>
-            </div>
+    // ── Spotify Embed API (play sem credencial) ──
+    let spotifyApi = null, spotifyCtrl = null, pendingUri = null;
+    window.onSpotifyIframeApiReady = (api) => { spotifyApi = api; if (pendingUri) makeController(pendingUri); };
+    function setupSpotify(trackId) {
+      const uri = 'spotify:track:' + trackId;
+      if (spotifyApi) makeController(uri); else pendingUri = uri;
+    }
+    function makeController(uri) {
+      spotifyApi.createController(document.getElementById('sp-embed'), { uri, width: '100%', height: 80 }, (ctrl) => {
+        spotifyCtrl = ctrl;
+        ctrl.addListener('playback_update', (e) => setPlayingUI(e.data && e.data.isPaused === false));
+      });
+    }
+    function setPlayingUI(playing) {
+      const btn = document.getElementById('playBtn');
+      if (!btn) return;
+      btn.classList.toggle('playing', playing);
+      btn.querySelector('.circle').innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
+    }
+    const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    const ICON_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
+
+    function render(d) {
+      const heading = [d.title, d.artist].filter(Boolean).join(' - ');
+      document.title = heading || 'Altus Records';
+      if (d.cover) { bg.style.backgroundImage = `url("${d.cover}")`; const i = new Image(); i.onload = () => bg.classList.add('loaded'); i.src = d.cover; }
+      const subtitle = d.subtitle || 'Ouça agora no seu app favorito';
+      const platforms = (d.platforms || []).filter(p => p.url);
+
+      const spUrl = d.spotify || (platforms.find(p => p.id === 'spotify') || {}).url || '';
+      const mt = spUrl.match(/track\/([A-Za-z0-9]+)/);
+      const trackId = mt ? mt[1] : null;
+
+      card.innerHTML = `
+        <div class="hero">
+          ${d.cover ? `<div class="cover-wrap">
+            <img class="cover" src="${d.cover}" alt="${esc(d.title)}">
+            ${trackId ? `<button class="play-btn" id="playBtn" aria-label="Ouvir prévia"><span class="circle">${ICON_PLAY}</span></button>` : ''}
+          </div>` : ''}
+          <div class="hero-info">
+            <div class="hero-title">${esc(heading)}</div>
+            <div class="hero-sub">${esc(subtitle)}</div>
           </div>
-          <div class="platforms">
-            ${platforms.map(p => `
-              <a class="platform" href="${p.url}" target="_blank" rel="noopener">
-                <span class="pleft">${logoFor(p)}</span>
-                <span class="cta">${escapeHtml(p.cta || 'Ouvir')}</span>
-              </a>`).join('')}
-          </div>`;
+        </div>
+        <div class="platforms">
+          ${platforms.map(p => `<a class="platform" href="${p.url}" target="_blank" rel="noopener"><span class="pleft">${logoFor(p)}</span><span class="cta">${esc(p.cta || 'Ouvir')}</span></a>`).join('')}
+        </div>`;
 
-        if (d.preview) {
-          const audio = new Audio(d.preview);
-          const btn = document.getElementById('playBtn');
-          const circle = btn.querySelector('.circle');
-          btn.addEventListener('click', () => { audio.paused ? audio.play() : audio.pause(); });
-          audio.addEventListener('play', () => { btn.classList.add('playing'); circle.innerHTML = iconPause; });
-          audio.addEventListener('pause', () => { btn.classList.remove('playing'); circle.innerHTML = iconPlay; });
-          audio.addEventListener('ended', () => { btn.classList.remove('playing'); circle.innerHTML = iconPlay; });
-        }
+      if (trackId) {
+        setupSpotify(trackId);
+        document.getElementById('playBtn').addEventListener('click', () => { if (spotifyCtrl) spotifyCtrl.togglePlay(); });
       }
+    }
 
-      function logoFor(p) {
-        if (LOGO_FILES.has(p.id)) {
-          if (ICON_ONLY.has(p.id)) {
-            return `<span class="picon"><img src="/logos/${p.id}.svg" alt=""></span><span class="pname">${escapeHtml(p.name)}</span>`;
-          }
-          return `<img class="plogo" src="/logos/${p.id}.svg" alt="${escapeHtml(p.name)}">`;
-        }
-        const inline = (window.PLATFORM_LOGOS && window.PLATFORM_LOGOS[p.id]) || '';
-        return `<span class="picon">${inline}</span><span class="pname">${escapeHtml(p.name)}</span>`;
-      }
-
-      function escapeHtml(s) {
-        return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-      }
-    })();
+    function logoFor(p) {
+      if (LOGO_FILES.has(p.id)) return `<img class="plogo plogo-${p.id}" src="/logos/${p.id}.svg" alt="${esc(p.name)}">`;
+      const inline = (window.PLATFORM_LOGOS && window.PLATFORM_LOGOS[p.id]) || '';
+      return `<span class="picon">${inline}</span><span class="pname">${esc(p.name)}</span>`;
+    }
+    function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  })();
   </script>
 </body>
 </html>
