@@ -1,0 +1,32 @@
+{
+  "title": "Castanho dos Teus Olhos",
+  "artist": "Erix, Altus Lab",
+  "cover": "https://i.scdn.co/image/ab67616d0000b273faa7cd4e019d88a709816228",
+  "subtitle": "Ouça agora no seu app favorito",
+  "platforms": [
+    {
+      "id": "spotify",
+      "name": "Spotify",
+      "url": "https://open.spotify.com/track/33bXzT5ZACpeehOvptT7dt",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "youtubeMusic",
+      "name": "YouTube Music",
+      "url": "https://music.youtube.com/watch?v=WEmqLEn_icU",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "deezer",
+      "name": "Deezer",
+      "url": "https://www.deezer.com/en/track/3340254971",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "tidal",
+      "name": "Tidal",
+      "url": "https://listen.tidal.com/track/432034519",
+      "cta": "Ouvir"
+    }
+  ]
+}
