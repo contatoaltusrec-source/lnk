@@ -1,0 +1,33 @@
+{
+  "title": "VOCÊ É COMO O SOL",
+  "artist": "Rakky",
+  "cover": "https://i.scdn.co/image/ab67616d0000b27371f0c97215160896a1d369ee",
+  "subtitle": "Ouça agora no seu app favorito",
+  "platforms": [
+    {
+      "id": "spotify",
+      "name": "Spotify",
+      "url": "https://open.spotify.com/album/6667foXxPrk1M19UMeDe10",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "appleMusic",
+      "name": "Apple Music",
+      "url": "https://music.apple.com/br/album/voc%C3%AA-%C3%A9-como-o-sol-ep/1806728024",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "deezer",
+      "name": "Deezer",
+      "url": "https://link.deezer.com/s/33JMTalopas3RqxRyMMIl",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "amazonMusic",
+      "name": "Amazon Music",
+      "url": "https://music.amazon.com.br/albums/B0F3PQWJFS?marketplaceId=A2Q3Y263D00KWC&musicTerritory=BR&ref=dm_sh_oCd8nlvGm3lKJKpJ80Eynnysv",
+      "cta": "Ouvir"
+    }
+  ],
+  "artistId": "7Gf8nW5S8PtsnSkeeglQej"
+}

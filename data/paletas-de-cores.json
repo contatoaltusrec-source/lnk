@@ -1,0 +1,39 @@
+{
+  "title": "PALETAS DE CORES",
+  "artist": "Rakky",
+  "cover": "https://i.scdn.co/image/ab67616d0000b27371f0c97215160896a1d369ee",
+  "subtitle": "Ouça agora no seu app favorito",
+  "platforms": [
+    {
+      "id": "spotify",
+      "name": "Spotify",
+      "url": "https://open.spotify.com/track/2TpGAPol7G17pBq9UTUzUs",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "appleMusic",
+      "name": "Apple Music",
+      "url": "https://music.apple.com/br/album/paletas-de-cores/1806728024?i=1806728027",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "deezer",
+      "name": "Deezer",
+      "url": "https://link.deezer.com/s/33JMX5dDpf6WhkdoQh116",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "amazonMusic",
+      "name": "Amazon Music",
+      "url": "https://music.amazon.com.br/tracks/B0F3PQW6LJ?marketplaceId=A2Q3Y263D00KWC&musicTerritory=BR&ref=dm_sh_JIEbqWfdXxqiu1R7q8Z0R69Dk",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "tidal",
+      "name": "Tidal",
+      "url": "https://listen.tidal.com/track/428246290",
+      "cta": "Ouvir"
+    }
+  ],
+  "artistId": "7Gf8nW5S8PtsnSkeeglQej"
+}

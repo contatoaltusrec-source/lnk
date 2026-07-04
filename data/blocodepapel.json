@@ -11,17 +11,35 @@
       "cta": "Ouvir"
     },
     {
+      "id": "appleMusic",
+      "name": "Apple Music",
+      "url": "https://music.apple.com/br/album/bloco-de-papel/1809054696?i=1809054698",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "youtubeMusic",
+      "name": "YouTube Music",
+      "url": "https://music.youtube.com/watch?v=rzDApPBOcjQ&si=r9_Nrnr_dndCVPTQ",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "deezer",
+      "name": "Deezer",
+      "url": "https://link.deezer.com/s/33JMiAImUkuN33TnmZaYI",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "amazonMusic",
+      "name": "Amazon Music",
+      "url": "https://music.amazon.com/tracks/B0F55LQ127?marketplaceId=ATVPDKIKX0DER&musicTerritory=US&ref=dm_sh_DeUaKZQABV5qQ5QIUJwpBlEBk",
+      "cta": "Ouvir"
+    },
+    {
       "id": "tidal",
       "name": "Tidal",
       "url": "https://listen.tidal.com/track/430511183",
       "cta": "Ouvir"
-    },
-    {
-      "id": "pandora",
-      "name": "Pandora",
-      "url": "https://www.pandora.com/TR:157016661",
-      "cta": "Ouvir"
     }
   ],
-  "spotify": "https://open.spotify.com/track/1rnv0alyrDidlKpEUpoV2L"
+  "artistId": "7htWEHwEK1hZFkDeTkdOHQ"
 }
