@@ -1,0 +1,38 @@
+{
+  "title": "6LOVE0",
+  "artist": "Ikki, Masuk",
+  "cover": "https://i.scdn.co/image/ab67616d0000b27303393efbc3ac165f842885ab",
+  "subtitle": "Ouça agora no seu app favorito",
+  "platforms": [
+    {
+      "id": "spotify",
+      "name": "Spotify",
+      "url": "https://open.spotify.com/album/56pmO5FUc1xHgk58OReMRq",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "appleMusic",
+      "name": "Apple Music",
+      "url": "https://music.apple.com/br/album/6love0/1877906720?i=1877906721",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "deezer",
+      "name": "Deezer",
+      "url": "https://link.deezer.com/s/33JFcUoeMizmi59Ha4C9M",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "amazonMusic",
+      "name": "Amazon Music",
+      "url": "https://music.amazon.com.br/tracks/B0GNT87YW2?marketplaceId=A2Q3Y263D00KWC&musicTerritory=BR&ref=dm_sh_8q3g0NO7wqYAqL5YbP92D19gX",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "tidal",
+      "name": "Tidal",
+      "url": "https://tidal.com/track/499808408/u",
+      "cta": "Ouvir"
+    }
+  ]
+}
