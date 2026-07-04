@@ -1,0 +1,39 @@
+{
+  "title": "Quando a Gente Briga",
+  "artist": "Erix, Rakky",
+  "cover": "https://i.scdn.co/image/ab67616d0000b2738cff8ec9cd7eeca5e3cb1606",
+  "subtitle": "Ouça agora no seu app favorito",
+  "platforms": [
+    {
+      "id": "spotify",
+      "name": "Spotify",
+      "url": "https://open.spotify.com/track/3RiOlKSI88r44CIXS8pWRs",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "appleMusic",
+      "name": "Apple Music",
+      "url": "https://music.apple.com/ao/song/quando-a-gente-briga/6786803435",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "deezer",
+      "name": "Deezer",
+      "url": "https://www.deezer.com/track/1343830452",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "amazonMusic",
+      "name": "Amazon Music",
+      "url": "https://music.amazon.com/tracks/B0H7N373V9?marketplaceId=ATVPDKIKX0DER&musicTerritory=US&ref=dm_sh_e0Kn3CN8nPa89P0C2wzglaNMA",
+      "cta": "Ouvir"
+    },
+    {
+      "id": "tidal",
+      "name": "Tidal",
+      "url": "https://listen.tidal.com/track/180693029",
+      "cta": "Ouvir"
+    }
+  ],
+  "artistId": "1nBbgjGsyozg0Ybfr49tma"
+}
