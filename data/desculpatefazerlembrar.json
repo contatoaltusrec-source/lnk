@@ -19,13 +19,13 @@
     {
       "id": "youtubeMusic",
       "name": "YouTube Music",
-      "url": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://music.youtube.com/browse/MPREb_13hFOC78gvg&ved=2ahUKEwiNlceh_rmVAxVHK7kGHdn5EeIQFnoECBsQAQ&usg=AOvVaw0Iz4K4YFDm3ZAnGifHdi2U",
+      "url": "https://music.youtube.com/playlist?list=OLAK5uy_nT5VGr9fuBwaWBnVBPOVcY0EIZhcCKYsw",
       "cta": "Ouvir"
     },
     {
       "id": "deezer",
       "name": "Deezer",
-      "url": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.deezer.com/br/album/447177915&ved=2ahUKEwiNlceh_rmVAxVHK7kGHdn5EeIQFnoECBwQAQ&usg=AOvVaw0eG1PtdklWh4CN8rPWGecV",
+      "url": "https://www.deezer.com/br/album/447177915",
       "cta": "Ouvir"
     },
     {
